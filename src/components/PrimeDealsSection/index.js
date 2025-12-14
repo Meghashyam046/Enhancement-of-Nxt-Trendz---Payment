@@ -1,105 +1,81 @@
-import {Component} from 'react'
-import Cookies from 'js-cookie'
-import Loader from 'react-loader-spinner'
-
-import ProductCard from '../ProductCard'
-
-import './index.css'
-
-const apiStatusConstants = {
-  initial: 'INITIAL',
-  success: 'SUCCESS',
-  failure: 'FAILURE',
-  inProgress: 'IN_PROGRESS',
+.product-item {
+  list-style-type: none;
+  margin-bottom: 48px;
+  width: 350px;
+  flex-grow: 0;
+  flex-shrink: 1;
+  margin-right: 20px;
 }
 
-class PrimeDealsSection extends Component {
-  state = {
-    primeDeals: [],
-    apiStatus: apiStatusConstants.initial,
-  }
-
-  componentDidMount() {
-    this.getPrimeDeals()
-  }
-
-  getPrimeDeals = async () => {
-    this.setState({
-      apiStatus: apiStatusConstants.inProgress,
-    })
-
-    const jwtToken = Cookies.get('jwt_token')
-
-    const apiUrl = 'https://apis.ccbp.in/prime-deals'
-    const options = {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-      method: 'GET',
-    }
-    const response = await fetch(apiUrl, options)
-    if (response.ok === true) {
-      const fetchedData = await response.json()
-      const updatedData = fetchedData.prime_deals.map(product => ({
-        title: product.title,
-        brand: product.brand,
-        price: product.price,
-        id: product.id,
-        imageUrl: product.image_url,
-        rating: product.rating,
-      }))
-      this.setState({
-        primeDeals: updatedData,
-        apiStatus: apiStatusConstants.success,
-      })
-    }
-    if (response.status === 401) {
-      this.setState({
-        apiStatus: apiStatusConstants.failure,
-      })
-    }
-  }
-
-  renderPrimeDealsListView = () => {
-    const {primeDeals} = this.state
-    return (
-      <div>
-        <h1 className="primedeals-list-heading">Exclusive Prime Deals</h1>
-        <ul className="products-list">
-          {primeDeals.map(product => (
-            <ProductCard productData={product} key={product.id} />
-          ))}
-        </ul>
-      </div>
-    )
-  }
-
-  renderPrimeDealsFailureView = () => (
-    <img
-      src="https://assets.ccbp.in/frontend/react-js/exclusive-deals-banner-img.png"
-      alt="register prime"
-      className="register-prime-img"
-    />
-  )
-
-  renderLoadingView = () => (
-    <div className="primedeals-loader-container">
-      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
-    </div>
-  )
-
-  render() {
-    const {apiStatus} = this.state
-    switch (apiStatus) {
-      case apiStatusConstants.success:
-        return this.renderPrimeDealsListView()
-      case apiStatusConstants.failure:
-        return this.renderPrimeDealsFailureView()
-      case apiStatusConstants.inProgress:
-        return this.renderLoadingView()
-      default:
-        return null
-    }
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .product-item {
+    width: 300px;
   }
 }
-export default PrimeDealsSection
+
+.link-item {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.thumbnail {
+  width: 100%;
+  max-height: 350px;
+  border-radius: 6px;
+}
+
+.title {
+  color: #171f46;
+  font-family: 'Roboto';
+  font-size: 24px;
+  font-weight: 500;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.brand {
+  color: #594d6d;
+  font-family: 'Roboto';
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.product-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 2px;
+}
+
+.price {
+  color: #171f46;
+  font-family: 'Roboto';
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  background-color: #3b82f6;
+  border-radius: 6px;
+  padding: 6px 16px;
+}
+
+.rating {
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 4px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.star {
+  height: 20px;
+  width: 20px;
+  margin-bottom: 3px;
+}
