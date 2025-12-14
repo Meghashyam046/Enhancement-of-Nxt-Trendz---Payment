@@ -19,9 +19,59 @@ class App extends Component {
 
   //   TODO: Add your code for remove all cart items, increment cart item quantity, decrement cart item quantity, remove cart item
 
+  removeCartItem = id => {
+    const {cartList} = this.state
+    const newCartList = cartList.filter(eachValue => eachValue.id !== id)
+    this.setState({cartList: newCartList})
+  }
+
+  incrementCartItemQuantity = id => {
+    const {cartList} = this.state
+    const newCartList = cartList.map(eachValue => {
+      if (eachValue.id === id) {
+        return {...eachValue, quantity: eachValue.quantity + 1}
+      }
+      return eachValue
+    })
+    this.setState({cartList: newCartList})
+  }
+
+  decrementCartItemQuantity = id => {
+    const {cartList} = this.state
+    const cartItem = cartList.filter(eachValue => eachValue.id === id)
+    const {quantity} = cartItem[0]
+    if (quantity > 1) {
+      const newCartList = cartList.map(eachValue => {
+        if (eachValue.id === id) {
+          return {...eachValue, quantity: eachValue.quantity - 1}
+        }
+        return eachValue
+      })
+      this.setState({cartList: newCartList})
+    } else {
+      this.removeCartItem(id)
+    }
+  }
+
+  removeAllCartItems = () => this.setState({cartList: []})
+
   addCartItem = product => {
-    this.setState(prevState => ({cartList: [...prevState.cartList, product]}))
     //   TODO: Update the code here to implement addCartItem
+    const {id, quantity} = product
+    const {cartList} = this.state
+    const isTrue = cartList.filter(eachValue => eachValue.id === id)
+    if (isTrue.length > 0) {
+      this.setState(prevState => ({
+        cartList: prevState.cartList.map(eachItem => {
+          if (eachItem.id === id) {
+            return {...eachItem, quantity: eachItem.quantity + quantity}
+          }
+          return eachItem
+        }),
+      }))
+    } else {
+      this.setState(prevState => ({cartList: [...prevState.cartList, product]}))
+    }
   }
 
   render() {
@@ -33,6 +83,9 @@ class App extends Component {
           cartList,
           addCartItem: this.addCartItem,
           removeCartItem: this.removeCartItem,
+          incrementCartItemQuantity: this.incrementCartItemQuantity,
+          decrementCartItemQuantity: this.decrementCartItemQuantity,
+          removeAllCartItems: this.removeAllCartItems,
         }}
       >
         <Switch>
@@ -52,5 +105,4 @@ class App extends Component {
     )
   }
 }
-
 export default App
