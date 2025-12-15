@@ -18,4 +18,5 @@ const EmptyCartView = () => (
     </Link>
   </div>
 )
+
 export default EmptyCartView
