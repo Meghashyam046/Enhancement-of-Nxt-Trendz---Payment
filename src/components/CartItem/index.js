@@ -18,13 +18,12 @@ const CartItem = props => (
       const onRemoveCartItem = () => {
         removeCartItem(id)
       }
-      // TODO: Update the functionality to increment and decrement quantity of the cart item
 
-      const onIncrementCartItemQuantity = () => {
+      const onIncrementCartItemQty = () => {
         incrementCartItemQuantity(id)
       }
 
-      const onDecrementCartItemQuantity = () => {
+      const onDecrementCartItemQty = () => {
         decrementCartItemQuantity(id)
       }
 
@@ -39,26 +38,26 @@ const CartItem = props => (
             <div className="cart-quantity-container">
               <button
                 type="button"
-                aria-label="Mute volume"
                 className="quantity-controller-button"
+                aria-label="Mute volume"
+                onClick={onDecrementCartItemQty}
                 data-testid="minus"
-                onClick={onDecrementCartItemQuantity}
               >
                 <BsDashSquare color="#52606D" size={12} />
               </button>
               <p className="cart-quantity">{quantity}</p>
               <button
                 type="button"
-                aria-label="Mute volume"
                 className="quantity-controller-button"
+                aria-label="Mute volume"
+                onClick={onIncrementCartItemQty}
                 data-testid="plus"
-                onClick={onIncrementCartItemQuantity}
               >
                 <BsPlusSquare color="#52606D" size={12} />
               </button>
             </div>
             <div className="total-price-remove-container">
-              <p className="cart-total-price">Rs {price * quantity}/- </p>
+              <p className="cart-total-price">Rs {price * quantity}/-</p>
               <button
                 className="remove-button"
                 type="button"
@@ -69,9 +68,9 @@ const CartItem = props => (
             </div>
           </div>
           <button
-            aria-label="Mute volume"
             className="delete-button"
             type="button"
+            aria-label="Mute volume" // Check this
             onClick={onRemoveCartItem}
             data-testid="remove"
           >
