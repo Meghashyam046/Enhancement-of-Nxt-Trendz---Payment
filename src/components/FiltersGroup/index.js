@@ -10,7 +10,6 @@ const FiltersGroup = props => {
       const {changeRating, activeRatingId} = props
       const ratingClassName =
         activeRatingId === rating.ratingId ? `and-up active-rating` : `and-up`
-
       const onClickRatingItem = () => changeRating(rating.ratingId)
 
       return (
@@ -113,4 +112,5 @@ const FiltersGroup = props => {
     </div>
   )
 }
+
 export default FiltersGroup
